@@ -9,17 +9,19 @@ function outer() {
   }
 }
 
+
 /****** INSTRUCTIONS PROBLEM 1 ******/
 /* Above you're given a function that returns another function which has a
 closure over the name variable. Invoke outer saving the return value into
 another variable called 'inner'. */
 
 // Code Here
+var inner = outer();
 
 //Once you do that, invoke inner.
 
 //Code Here
-
+inner();
 
 
 
@@ -47,7 +49,8 @@ Create a callJake function that when invoked with '435-555-9248' returns 'Callin
 in your console. */
 
   //Code Here
-
+var callJake = callFriend('Jake');
+callJake('435-555-9248');
 
 
 
@@ -65,13 +68,19 @@ in your console. */
 properly. */
 
 //Code Here
+function makeCounter() {
+  var counter = 0;
+  return function() {
+    return ++counter;
+  }
+}
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  // count(); // 2
+  // count(); // 3
+  // count(); // 4
 
 
 
@@ -96,21 +105,45 @@ Information on the module pattern available here:
 http://stackoverflow.com/questions/17776940/javascript-module-pattern-with-example?answertab=votes#tab-top
 */
 
+// function counterFactory(value) {
+
+//   // Code here.
+//   var count = value;
+//   function inc() {
+//     return ++count;
+//   }
+
+//   function dec() {
+//     return --count;
+//   }
+
+//   return {
+//     inc: i,nc
+//     dec: dec
+//   }
+// }
+
+
 function counterFactory(value) {
 
   // Code here.
-
-
   return {
+    inc: function () {
+      return ++value;
+    },
+
+    dec: function () {
+      return --value;
+    }
   }
+
 }
 
-
-counter = counterFactory(10);
-// counter.inc() // 11
-// counter.inc() // 12
-// counter.inc() // 13
-// counter.dec() // 12
+var counter = counterFactory(10);
+counter.inc() // 11
+counter.inc() // 12
+counter.inc() // 13
+counter.dec() // 12
 
 
 
@@ -134,15 +167,16 @@ function motivation(firstname, lastname) {
   var welcomeText = 'You\'re doing awesome, keep it up ';
 
   // code message function here.
-
+  function message() {
+    return welcomeText + firstname + ' ' + lastname + '.';
+  }
 
   //Uncommment this to return the value of your invoked message function
-  //return message();
+  return message();
 
 }
 
 motivation('Billy', 'Bob'); // 'You're doing awesome keep it up Billy Bob.
-
 
 
 
@@ -176,9 +210,12 @@ var module = (function() {
   // outside our lexical scope
   return {
     // Code here.
-  };
+    publicMethod: privateMethod
 
+  };
 })();
+
+module.publicMethod();
 
 
 
@@ -191,15 +228,35 @@ friends (friends of friends), and an array of all users. These arrays may share
 users. Write a function that takes in our existing friends and returns
 a function that will tell us if a given user is not already a friend. */
 var friends = ["Tom", "Dick", "Harry"];
-var secondLevelFriends = ["Anne", "Harry", "Quinton"];
-var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
+// var secondLevelFriends = ["Anne", "Harry", "Quinton"];
+// var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
 
 function findPotentialFriends(existingFriends) {
+  // if name not == first indexof friends set holder == true;
+  // if name is == first index of freinds retrun false;
+  // if name  not == second indexof frreds reurn true;
+  // if name is == second index of freinds retrun false;
+  // if name  not == third indexof frreds reurn true;
+  // if name is == third index of freinds retrun false;
 
+  return function (name) {
+    var holder = false;
+    for(i = 0; i < existingFriends.length; i++) {
+      if(name !== existingFriends[i]) {
+         holder = true;
+      } else {
+        holder = false; //can eliminate by reversing !== with == and change defalut holder = true;
+      }
+
+    }
+    return holder;
+  }
+
+  
 }
 
 var isNotAFriend = findPotentialFriends( friends );
-// isNotAFriend(allUsers[0]); // false
+isNotAFriend(allUsers[0]); // false
 // isNotAFriend(secondLevelFriends[2]); // true
 
 
