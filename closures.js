@@ -211,7 +211,9 @@ var module = (function() {
   return {
     // Code here.
     publicMethod: privateMethod
-
+    // publicMethod: function () {
+      // return privateMethod();
+    // }
   };
 })();
 
@@ -227,9 +229,10 @@ module.publicMethod();
 friends (friends of friends), and an array of all users. These arrays may share
 users. Write a function that takes in our existing friends and returns
 a function that will tell us if a given user is not already a friend. */
+
 var friends = ["Tom", "Dick", "Harry"];
-// var secondLevelFriends = ["Anne", "Harry", "Quinton"];
-// var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
+var secondLevelFriends = ["Anne", "Harry", "Quinton"];
+var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
 
 function findPotentialFriends(existingFriends) {
   // if name not == first indexof friends set holder == true;
@@ -239,24 +242,58 @@ function findPotentialFriends(existingFriends) {
   // if name  not == third indexof frreds reurn true;
   // if name is == third index of freinds retrun false;
 
-  return function (name) {
-    var holder = false;
-    for(i = 0; i < existingFriends.length; i++) {
-      if(name !== existingFriends[i]) {
-         holder = true;
-      } else {
-        holder = false; //can eliminate by reversing !== with == and change defalut holder = true;
+  return function (name) { //function (name) is checking for existingFriends of users
+    var holder = true; //instead of using 'return true;' since that exits the function and stops...
+    for(i = 0; i < existingFriends.length; i++) { //for (starting at index 0, then checking the length of the array, i++ (adding 1 each time it loops)
+      if(name == existingFriends[i]) { //function findPotentialFriends() has the 'friends' array passed to it. Here we are checking if names are in the friends array, 
+         holder = false; //if names are in friends array, then return false, since notAFriend is false.
+      // } else {
+      //   holder = true; //can eliminate by reversing !== with == and change defalut holder = true;
+      // }
+
       }
-
-    }
-    return holder;
+      return holder;
+      }
   }
-
   
 }
 
 var isNotAFriend = findPotentialFriends( friends );
 isNotAFriend(allUsers[0]); // false
+// isNotAFriend(secondLevelFriends[2]); // true
+
+
+/////////////// KEEP FOR NOTES //////////////////
+// var friends = ["Tom", "Dick", "Harry"];
+// var secondLevelFriends = ["Anne", "Harry", "Quinton"];
+// var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
+
+// function findPotentialFriends(existingFriends) {
+//   // if name not == first indexof friends set holder == true;
+//   // if name is == first index of freinds retrun false;
+//   // if name  not == second indexof frreds reurn true;
+//   // if name is == second index of freinds retrun false;
+//   // if name  not == third indexof frreds reurn true;
+//   // if name is == third index of freinds retrun false;
+
+//   return function (name) { //function (name) is checking for existingFriends of users
+//     var holder = false; //instead of using 'return true;' since that exits the function and stops...
+//     for(i = 0; i < existingFriends.length; i++) { //for (starting at index 0, then checking the length of the array, i++ (adding 1 each time it loops)
+//       if(name !== existingFriends[i]) { //function findPotentialFriends() has the 'friends' array passed to it. Here we are checking if names are not in the friends array 
+//          holder = true;
+//       } else {
+//         holder = false; //can eliminate by reversing !== with == and change defalut holder = true;
+//       }
+
+//     }
+//     return holder;
+//   }
+
+  
+// }
+
+// var isNotAFriend = findPotentialFriends( friends );
+// isNotAFriend(allUsers[0]); // false
 // isNotAFriend(secondLevelFriends[2]); // true
 
 
@@ -266,6 +303,8 @@ isNotAFriend(allUsers[0]); // false
 /* Using your findPotentialFriends function from above and the Array.filter
 method, find all potential second level friends as well as potential friends
 from allUsers. */
+
+secondLevelFriends.filter(findPotentialFriends, name);
 
 var potentialSecondLevelFriends = "?";
 var allPotentialFriends = "?";
@@ -293,9 +332,12 @@ to 5. What we need to do is console.log(i) so that it logs like so:
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-    	console.log(i)
-	}, i * 1000)
+    (function(j) {
+      setTimeout(function() {
+        console.log(j);
+      }, i *1000)
+    	
+	  }) (i)
   }
 }
 timeOutCounter();
