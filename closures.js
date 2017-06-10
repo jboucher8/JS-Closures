@@ -224,44 +224,6 @@ module.publicMethod();
 /******************************************************************************\
  #PROBLEM-07
  \******************************************************************************/
-/****** INSTRUCTIONS PROBLEM 7 ******/
-/* Here we are given three arrays: an array of friends, an array of second-level
-friends (friends of friends), and an array of all users. These arrays may share
-users. Write a function that takes in our existing friends and returns
-a function that will tell us if a given user is not already a friend. */
-
-var friends = ["Tom", "Dick", "Harry"];
-var secondLevelFriends = ["Anne", "Harry", "Quinton"];
-var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
-
-function findPotentialFriends(existingFriends) {
-  // if name not == first indexof friends set holder == true;
-  // if name is == first index of freinds retrun false;
-  // if name  not == second indexof frreds reurn true;
-  // if name is == second index of freinds retrun false;
-  // if name  not == third indexof frreds reurn true;
-  // if name is == third index of freinds retrun false;
-
-  return function (name) { //function (name) is checking for existingFriends of users
-    var holder = true; //instead of using 'return true;' since that exits the function and stops...
-    for(i = 0; i < existingFriends.length; i++) { //for (starting at index 0, then checking the length of the array, i++ (adding 1 each time it loops)
-      if(name == existingFriends[i]) { //function findPotentialFriends() has the 'friends' array passed to it. Here we are checking if names are in the friends array, 
-         holder = false; //if names are in friends array, then return false, since notAFriend is false.
-      // } else {
-      //   holder = true; //can eliminate by reversing !== with == and change defalut holder = true;
-      // }
-
-      }
-      return holder;
-      }
-  }
-  
-}
-
-var isNotAFriend = findPotentialFriends( friends );
-isNotAFriend(allUsers[0]); // false
-// isNotAFriend(secondLevelFriends[2]); // true
-
 
 /////////////// KEEP FOR NOTES //////////////////
 // var friends = ["Tom", "Dick", "Harry"];
@@ -297,6 +259,51 @@ isNotAFriend(allUsers[0]); // false
 // isNotAFriend(secondLevelFriends[2]); // true
 
 
+
+
+/****** INSTRUCTIONS PROBLEM 7 ******/
+/* Here we are given three arrays: an array of friends, an array of second-level
+friends (friends of friends), and an array of all users. These arrays may share
+users. Write a function that takes in our existing friends and returns
+a function that will tell us if a given user is not already a friend. */
+
+var friends = ["Tom", "Dick", "Harry"];
+var secondLevelFriends = ["Anne", "Harry", "Quinton"];
+var allUsers = ["Tom", "Dick", "Harry", "Anne", "Quinton", "Katie", "Mary"];
+
+function findPotentialFriends(existingFriends) {
+  // if name not == first indexof friends set holder == true;
+  // if name is == first index of freinds retrun false;
+  // if name  not == second indexof frreds reurn true;
+  // if name is == second index of freinds retrun false;
+  // if name  not == third indexof frreds reurn true;
+  // if name is == third index of freinds retrun false;
+
+  return function (name) { //function (name) is checking for existingFriends of users
+    var holder = true; //instead of using 'return true;' since that exits the function and stops...
+    for(i = 0; i < existingFriends.length; i++) { //for (starting at index 0, then checking the length of the array, i++ (adding 1 each time it loops)
+      if(name == existingFriends[i]) { //function findPotentialFriends() has the 'friends' array passed to it. Here we are checking if names are in the friends array, 
+         holder = false; //if names are in friends array, then return false, since notAFriend is false.
+      // } else {
+      //   holder = true; //can eliminate by reversing !== with == and change defalut holder = true;
+      // }
+
+      }
+      
+    }
+    return holder;
+  }
+  
+}
+
+var isNotAFriend = findPotentialFriends(friends);
+isNotAFriend(allUsers[0]); // false
+// isNotAFriend(secondLevelFriends[2]); // true
+
+
+
+
+
 /******************************************************************************\
  #PROBLEM-07 -- BLACK DIAMOND
  \******************************************************************************/
@@ -304,10 +311,23 @@ isNotAFriend(allUsers[0]); // false
 method, find all potential second level friends as well as potential friends
 from allUsers. */
 
-secondLevelFriends.filter(findPotentialFriends, name);
 
-var potentialSecondLevelFriends = "?";
-var allPotentialFriends = "?";
+allUsers.filter(function(friends) {
+    for (var i = 0; i < friends.length; i++){
+        return this == friends[i];
+    }
+});
+console.log(allUsers);
+
+secondLevelFriends.filter(function(name) {
+    return name;
+});
+
+// var potentialSecondLevelFriends = findPotentialFriends(allUsers);
+// var allPotentialFriends = potentialSecondLevelFriends(friends, secondLevelFriends);
+
+var potentialSecondLevelFriends = secondLevelFriends( allUsers);
+var allPotentialFriends = potentialSecondLevelFriends();
 
 
 /******************************************************************************\
